@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,6 @@ namespace _1942
         public int PosBalaX = 0;
         public bool visible = false;
         int velocidadBala = 5;
-
 
         public Bala() { }
         public void Disparar(Player player)

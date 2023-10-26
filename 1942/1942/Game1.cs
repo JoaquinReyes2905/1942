@@ -30,8 +30,14 @@ namespace _1942
         DateTime timew;
         DateTime tiempoActual;
         TimeSpan tiempo;
+        DateTime minute;
+        DateTime minuteActual;
+        TimeSpan minu;
         Random rnd;
+        Double game;
         Bala bala;
+        Texture2D municion1;
+        List<Municion> municion = new List<Municion>();
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         SpriteFont fuente;
@@ -72,9 +78,11 @@ namespace _1942
 
             //Otras Variables
             timew = DateTime.Now;
+            minute = DateTime.Now;
             rnd = new Random();
             backgroundTexture = Content.Load<Texture2D>("img/fondo");
             fuente = Content.Load<SpriteFont>("img/arial");
+            municion1 = Content.Load<Texture2D>("municion1");
             // TODO: use this.Content to load your game content here
         }
 
@@ -83,24 +91,37 @@ namespace _1942
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            game = gameTime.TotalGameTime.TotalSeconds;
             tiempoActual = DateTime.Now;
             tiempo = tiempoActual - timew;
+            minuteActual = DateTime.Now;
+            minu = minuteActual - minute;
 
-            if (tiempo.Milliseconds == 700)
+
+            //establece municiones cuando el jugador tiene menos de 25 balas o se quedo sin ninguna
+            
+            if (player.municion < 75 || player.disparar == false)
             {
+                if (tiempo.Seconds == 5)
+                {   
+                    municion.Add(new Municion((rnd.Next(0, (Window.ClientBounds.Width - nube.Height))), rnd.Next(-200, -100), municion1));
+                    timew = DateTime.Now;
+                }
+            }
+
+            //crea nubes y crea enemigos con velocidad 5 cada 5 seg
+            if (tiempo.Seconds == 6)
+            {
+                obstaculos.Add(new Obstaculo(rnd.Next(0, (Window.ClientBounds.Width - nube.Height)), rnd.Next(-150, -100)));
                 enemigos.Add(new Enemigo(rnd.Next(0, (Window.ClientBounds.Width - enemy.Height)), rnd.Next(-300, -200), 5, enemy));
                 timew = DateTime.Now;
-            }
-            if (tiempo.Milliseconds == 600)
-            {
-                obstaculos.Add(new Obstaculo(rnd.Next(0, (Window.ClientBounds.Width - nube.Height)), rnd.Next(-200, -100)));
-                timew = DateTime.Now;
+            }  
 
-            }
-            if (tiempo.Seconds == 1)
+            //Crea un segundo tipo de enemigo
+            if(minu.Seconds == 1)
             {
-                enemigos.Add(new Enemigo(rnd.Next(0, (Window.ClientBounds.Width - enemy2.Height)), rnd.Next(-300, -200), 2, enemy2));
-                timew = DateTime.Now;
+                enemigos.Add(new Enemigo(rnd.Next(0, (Window.ClientBounds.Width - enemy2.Height)), rnd.Next(-200, -100), 2, enemy2));
+                minute = DateTime.Now;
             }
 
             if (player.vida == 0)
@@ -142,19 +163,35 @@ namespace _1942
                 }
             // TODO: Add your update logic here
 
-            if (emisor.IsKeyDown(Keys.P))
+            if (player.disparar == true)
             {
-                balasJug.Add(new Bala());
-                foreach (Bala b in balasJug)
+                if (emisor.IsKeyDown(Keys.P))
                 {
-                    b.visible = true;
+                    balasJug.Add(new Bala());
+                    player.municion = player.municion - 2;
+                    foreach (Bala b in balasJug)
+                    {
+                        b.visible = true;
+                    }
                 }
+            }
+            if(player.municion == 0)
+            {
+                player.disparar = false;
             }
 
             //Colisiones
             foreach (Enemigo r in enemigos)
             {
                 r.mover(enemy);
+                if(game == 15)
+                {
+                    r.velocidad++;
+                }
+                if(game == 30)
+                {
+                    r.velocidad += 2;
+                }
                 enemigoPosisicion.Add(new Rectangle(r.positionX, r.positionY, enemy.Width, enemy.Height));
                 foreach (Bala a in balasJug)
                 {
@@ -196,6 +233,32 @@ namespace _1942
             foreach (Obstaculo o in obstaculos)
             {
                 o.mover(nube);
+                if(o.positionY > Window.ClientBounds.Height)
+                {
+                    obstaculos.Remove(o);
+                    break;
+                }
+            }
+
+            if (player.municion < 75 || player.disparar == false)
+            {
+                foreach (Municion m in municion)
+                {
+                    m.mover(m.imagen);
+                    if (m.positionY > Window.ClientBounds.Height)
+                    {
+                        municion.Remove(m);
+                        break;
+                    }
+                    if (new Rectangle(player.positionX, player.positionY, player.img.Width, player.img.Height).Intersects(new Rectangle(m.positionX, m.positionY, m.imagen.Width, m.imagen.Height)))
+                    {
+                        municion.Remove(m);
+                        player.municion = 100;
+                        player.disparar = true;
+                        municion.Clear();
+                        break;
+                    }
+                }
             }
 
             base.Update(gameTime);
@@ -222,6 +285,8 @@ namespace _1942
             }
             _spriteBatch.DrawString(fuente, "vida: " + player.vida, new Vector2(0, 0), Color.White);
             _spriteBatch.DrawString(fuente, "score: " + player.score, new Vector2(Window.ClientBounds.Height - player.img.Height, 0), Color.White);
+            _spriteBatch.DrawString(fuente, Convert.ToString(game) , new Vector2(Window.ClientBounds.Height/2 , 0), Color.White);
+            _spriteBatch.DrawString(fuente, "municion: " + player.municion, new Vector2(0, 24), Color.White);
             if (player.vida >= 50)
             {
                 _spriteBatch.Draw(player.img, new Rectangle(player.positionX, player.positionY, player.img.Width, player.img.Height), Color.White);
@@ -232,8 +297,12 @@ namespace _1942
             }
             foreach (Obstaculo o in obstaculos)
             {
-                _spriteBatch.Draw(nube, new Rectangle(o.positionX, o.positionY, nube.Width, nube.Height), Color.White);
+                _spriteBatch.Draw(nube, new Rectangle(o.positionX, o.positionY, nube.Width, nube.Height), Color.White * 0.7f);
             }
+                foreach (Municion m in municion)
+                {
+                    _spriteBatch.Draw(m.imagen, new Rectangle(m.positionX, m.positionY, m.imagen.Width, m.imagen.Height), Color.White);
+                }
             _spriteBatch.End();
             base.Draw(gameTime);
         }

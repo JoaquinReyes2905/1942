@@ -42,3 +42,4 @@ C:\Users\Alumno\source\repos\JoaquinReyes2905\1942\1942\1942\obj\Debug\net6.0-wi
 C:\Users\Alumno\source\repos\JoaquinReyes2905\1942\1942\1942\obj\Debug\net6.0-windows\1942.pdb
 C:\Users\Alumno\source\repos\JoaquinReyes2905\1942\1942\1942\obj\Debug\net6.0-windows\1942.genruntimeconfig.cache
 C:\Users\Alumno\source\repos\JoaquinReyes2905\1942\1942\1942\obj\Debug\net6.0-windows\ref\1942.dll
+C:\Users\Alumno\source\repos\JoaquinReyes2905\1942\1942\1942\bin\Debug\net6.0-windows\Content\municion1.xnb

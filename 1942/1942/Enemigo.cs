@@ -43,5 +43,9 @@ namespace _1942
                 positionY += velocidad;
             }
         }
+        public void aumentarVelocidad(int veloz)
+        {
+            velocidad = veloz + 1;
+        }
     }
 }

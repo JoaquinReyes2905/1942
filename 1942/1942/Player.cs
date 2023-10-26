@@ -17,7 +17,8 @@ namespace _1942
     public int score = 0;
     public Texture2D img;
     public Texture2D disparoimg;
-
+    public int municion = 100;
+    public bool disparar = true;
     public Player() { }
 
 
