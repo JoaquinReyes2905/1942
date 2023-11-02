@@ -46,7 +46,7 @@ namespace _1942
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         SpriteFont fuente;
-        int cont = 0, pas = 0, cos=0;
+        int cont = 0, pas = 0, cos=0 , p =0;
         
         public Game1()
         {
@@ -109,7 +109,7 @@ namespace _1942
             minu = minuteActual - minute;
 
 
-            //establece municiones cuando el jugador tiene menos de 25 balas o se quedo sin ninguna
+            //establece municiones cuando el jugador tiene menos de 75 balas o se quedo sin ninguna
             
             if (player.municion < 75 || player.disparar == false)
             {
@@ -129,10 +129,11 @@ namespace _1942
             }  
 
             //Crea un segundo tipo de enemigo
-            if(minu.Seconds == 1)
+            if(p > 3)
             {
                 enemigos.Add(new Enemigo(rnd.Next(0, (Window.ClientBounds.Width - enemy2.Height)), rnd.Next(-200, -100), 2, enemy2));
                 minute = DateTime.Now;
+                p = 0;
             }
 
             if (player.vida == 0)
@@ -292,6 +293,7 @@ namespace _1942
             cont++;
             cos++;
             pas++;
+            p++;
             base.Update(gameTime);
         }
 

@@ -93,3 +93,8 @@ C:\Users\Alumno\source\repos\JoaquinReyes2905\1945\1942\1942\bin\Debug\net6.0-wi
 C:\Users\Alumno\source\repos\JoaquinReyes2905\1945\1942\1942\bin\Debug\net6.0-windows\Content\movDe2.xnb
 C:\Users\Alumno\source\repos\JoaquinReyes2905\1945\1942\1942\bin\Debug\net6.0-windows\Content\movIz1.xnb
 C:\Users\Alumno\source\repos\JoaquinReyes2905\1945\1942\1942\bin\Debug\net6.0-windows\Content\movIz2.xnb
+C:\Users\Alumno\source\repos\JoaquinReyes2905\1942\1942\1942\bin\Debug\net6.0-windows\Content\movDe2.xnb
+C:\Users\Alumno\source\repos\JoaquinReyes2905\1942\1942\1942\bin\Debug\net6.0-windows\Content\movIz2.xnb
+C:\Users\Alumno\source\repos\JoaquinReyes2905\1942\1942\1942\bin\Debug\net6.0-windows\Content\avionInicial.xnb
+C:\Users\Alumno\source\repos\JoaquinReyes2905\1942\1942\1942\bin\Debug\net6.0-windows\Content\movDe1.xnb
+C:\Users\Alumno\source\repos\JoaquinReyes2905\1942\1942\1942\bin\Debug\net6.0-windows\Content\movIz1.xnb
