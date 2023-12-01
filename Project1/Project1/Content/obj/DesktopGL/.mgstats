@@ -1,0 +1,3 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Project1/Project1/Content/img/ball.jpg","C:/Project1/Project1/Content/bin/DesktopGL/img/ball.xnb","TextureProcessor","Texture2DContent",5849,201685,0,1288766
+"C:/Project1/Project1/Content/img/sus.png","C:/Project1/Project1/Content/bin/DesktopGL/img/sus.xnb","TextureProcessor","Texture2DContent",1951,5914709,0,1678002
